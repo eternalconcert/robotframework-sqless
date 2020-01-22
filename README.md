@@ -1,2 +1,2 @@
 # robotframework-sqless
-SQL abstractoion for Robot Framework
+SQL abstraction for Robot Framework
