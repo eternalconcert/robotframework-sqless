@@ -1,0 +1,4 @@
+pythonenv/
+reports/
+*.pyc
+sqless.db

@@ -1,0 +1,10 @@
+database_config:
+  db: sqless.db
+
+schema:
+  users:
+    tablename: user
+    fields:
+      username: char
+      email: char
+      failed_logins: integer
