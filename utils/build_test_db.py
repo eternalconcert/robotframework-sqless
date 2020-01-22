@@ -22,5 +22,11 @@ migrations.create_migrations()
 migrations.run_migrations()
 
 
-User.objects.get_or_create(username="TestUser1", email="somename@somedomain.tld")
-User.objects.get_or_create(username="TestUser2", email="someothername@someotherdomain.tld")
+users = [
+    {"username": "TestUser1", "email": "somename@somedomain.tld"},
+    {"username": "TestUser2", "email": "someothername@someotherdomain.tld"},
+    {"username": "TestUser3", "email": "another@mail.tld", "failed_logins": 12}
+]
+
+for user in users:
+    User.objects.get_or_create(**user)

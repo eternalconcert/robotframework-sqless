@@ -1,8 +1,9 @@
 import os
-import sqlite3
-
 import yaml
+
 from robot.api import logger
+
+from adaptors.sqlite import SQLiteAdaptor
 
 
 class SQLessKeywords(object):
@@ -11,11 +12,13 @@ class SQLessKeywords(object):
     def __init__(self, schema_defintion_path=None):
         self.schema_defintion_path = schema_defintion_path if schema_defintion_path else 'schema.yml'
         self.schema = self._read_schema()
+        self.adaptor = self._get_adaptor()
 
-    def _get_connection_and_cursor(self):
-        connection = sqlite3.connect(self.schema['database_config']['db'])
-        cursor = connection.cursor()
-        return connection, cursor
+    def _get_adaptor(self):
+        if self.schema['database_config']['dbms'] == 'sqlite':
+            adaptor = SQLiteAdaptor
+
+        return adaptor(**self.schema['database_config'])
 
     def _read_schema(self):
         with open(self.schema_defintion_path) as file:
@@ -28,14 +31,9 @@ class SQLessKeywords(object):
         return (tablename, fieldnames)
 
     def get_all(self, identifier):
-        connection, cursor = self._get_connection_and_cursor()
         tablename, fieldnames = self._get_tablename_and_fieldname(identifier)
-        cursor.execute("SELECT %s FROM %s" % (', '.join(fieldnames.keys()) ,tablename))
-        return cursor.fetchall()
+        return self.adaptor.get_all(tablename, fieldnames)
 
-    def filter(self, identifier, **filters):
-        connection, cursor = self._get_connection_and_cursor()
+    def get_by_filter(self, identifier, **filters):
         tablename, fieldnames = self._get_tablename_and_fieldname(identifier)
-        filter = ", ".join(f"{key}='{value}'" for key, value in filters.items())
-        cursor.execute("SELECT %s FROM %s WHERE %s" % (', '.join(fieldnames.keys()) ,tablename, filter))
-        return cursor.fetchall()
+        return self.adaptor.get_by_filter(tablename, fieldnames, **filters)

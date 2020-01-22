@@ -1,4 +1,5 @@
 database_config:
+  dbms: sqlite
   db: sqless.db
 
 schema:
