@@ -19,3 +19,7 @@ Test Get By Multiple Filters
 Test Get By Multiple Filters Negative
     ${users}   Get By Filter    Users    username=TestUser1    failed_logins=1
     Length Should Be    ${users}    0
+
+Test Get By Filter Returned Value
+    ${users}   Get By Filter    Users    email=someothername@someotherdomain.tld
+    Should Be Equal    ${users[0]['username']}    TestUser2

@@ -30,5 +30,6 @@ schema:
   users:
     tablename: user
     fields:
+      id: integer
       username: char
 ```

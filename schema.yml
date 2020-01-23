@@ -6,6 +6,7 @@ schema:
   users:
     tablename: user
     fields:
+      id: integer
       username: char
       email: char
       failed_logins: integer
