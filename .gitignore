@@ -1,4 +1,6 @@
 pythonenv/
 reports/
+build/
+*egg*
 *.pyc
 sqless.db

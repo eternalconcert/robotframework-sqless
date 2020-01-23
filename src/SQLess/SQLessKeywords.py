@@ -3,7 +3,7 @@ import yaml
 
 from robot.api import logger
 
-from adaptors.sqlite import SQLiteAdaptor
+from SQLess.adaptors.sqlite import SQLiteAdaptor
 
 
 class SQLessKeywords(object):

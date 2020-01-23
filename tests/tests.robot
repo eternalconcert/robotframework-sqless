@@ -1,6 +1,6 @@
 *** Settings ***
 
-Library    ../src/SQLess/SQLessKeywords.py    schema.yml
+Library    SQLess    schema.yml
 
 *** Test Cases ***
 

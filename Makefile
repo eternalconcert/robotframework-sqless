@@ -1,5 +1,7 @@
 #!/usr/bin/make
 
+export PYTHONPATH := "$(PYTHONPATH):./src/
+
 pythonenv:
 	virtualenv --python=python3 pythonenv
 	pythonenv/bin/pip install -r requirements.txt
