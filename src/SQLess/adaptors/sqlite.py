@@ -27,6 +27,12 @@ class SQLiteAdaptor:
             result_list.append(dict(zip(fieldnames, item)))
         return result_list
 
+    def execute_sql(self, query):
+        with DatabaseCursor(self.database) as cursor:
+            cursor.execute(query)
+            result = cursor.fetchall()
+        return result
+
     def get_all(self, tablename, fields):
         with DatabaseCursor(self.database) as cursor:
             cursor.execute("SELECT %s FROM %s" % (', '.join(fields.keys()), tablename))

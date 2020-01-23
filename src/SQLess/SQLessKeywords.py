@@ -40,6 +40,9 @@ class SQLessKeywords(object):
         fieldnames = self.schema['schema'].get(identifier.lower())['fields']
         return (tablename, fieldnames)
 
+    def execute_sql(self, query):
+        return self.adaptor.execute_sql(query)
+
     def get_all(self, identifier):
         """
         Dispatches the function call to the configured adaptor and returns all rows from the table

@@ -23,3 +23,8 @@ Test Get By Multiple Filters Negative
 Test Get By Filter Returned Value
     ${users}   Get By Filter    Users    email=someothername@someotherdomain.tld
     Should Be Equal    ${users[0]['username']}    TestUser2
+
+Test Get By Raw Query
+    ${query}    Set Variable    SELECT id, username, email, failed_logins FROM user;
+    ${result}    Execute SQL    ${query}
+    Length Should Be    ${result}    3
