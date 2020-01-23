@@ -11,6 +11,12 @@ test:
 	pythonenv/bin/python utils/build_test_db.py
 	pythonenv/bin/robot --outputdir reports/ tests
 
+package:
+	pythonenv/bin/python setup.py sdist bdist_wheel
+
+upload:
+	pythonenv/bin/twine upload dist/* --verbose
+
 clean:
 	rm -rf python*
 	rm -rf dist
