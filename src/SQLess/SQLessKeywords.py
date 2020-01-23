@@ -35,12 +35,16 @@ class SQLessKeywords(object):
             schema_defintion = yaml.load(file, Loader=yaml.FullLoader)
         return schema_defintion
 
-    def _get_tablename_and_fieldname(self, identifier):
+    def _get_tablename_and_fields(self, identifier):
         tablename = self.schema['schema'].get(identifier.lower())['tablename']
-        fieldnames = self.schema['schema'].get(identifier.lower())['fields']
-        return (tablename, fieldnames)
+        fields = self.schema['schema'].get(identifier.lower())['fields']
+        return (tablename, fields)
 
     def execute_sql(self, query):
+        """
+        Passes the query to the adaptor and returns the result
+
+        """
         return self.adaptor.execute_sql(query)
 
     def get_all(self, identifier):
@@ -61,10 +65,10 @@ class SQLessKeywords(object):
                 'username': 'TestUser1'
             },
             ...
-        }
+        ]
         """
-        tablename, fieldnames = self._get_tablename_and_fieldname(identifier)
-        return self.adaptor.get_all(tablename, fieldnames)
+        tablename, fields = self._get_tablename_and_fields(identifier)
+        return self.adaptor.get_all(tablename, fields)
 
     def get_by_filter(self, identifier, **filters):
         """
@@ -85,7 +89,24 @@ class SQLessKeywords(object):
                 'username': 'TestUser1'
             },
             ...
-        }
+        ]
         """
-        tablename, fieldnames = self._get_tablename_and_fieldname(identifier)
-        return self.adaptor.get_by_filter(tablename, fieldnames, **filters)
+        tablename, fields = self._get_tablename_and_fields(identifier)
+        return self.adaptor.get_by_filter(tablename, fields, **filters)
+
+    def create(self, identifier, **attributes):
+        """
+        Dispatches the create function to the adaptor.
+
+        Keyword usage:
+            ${user}   Create    Users    username=AnotherUser
+
+        :returns: dict
+        example:
+            {
+                'id': 1,
+                'username': 'TestUser1'
+            }
+        """
+        tablename, fields = self._get_tablename_and_fields(identifier)
+        return self.adaptor.create(tablename, fields, **attributes)

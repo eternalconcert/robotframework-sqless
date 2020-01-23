@@ -5,6 +5,8 @@ pythonenv:
 	pythonenv/bin/pip install -r requirements.txt
 
 test:
+	rm -f sqless.db
+	pythonenv/bin/python utils/build_test_db.py
 	pythonenv/bin/robot --outputdir reports/ tests
 
 clean:

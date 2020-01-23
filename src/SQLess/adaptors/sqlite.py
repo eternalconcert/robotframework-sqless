@@ -45,3 +45,18 @@ class SQLiteAdaptor:
             cursor.execute("SELECT %s FROM %s WHERE %s" % (', '.join(fields.keys()) ,tablename, filter))
             result = self._make_list(cursor.fetchall(), fields.keys())
         return result
+
+    def create(self, tablename, fields, **attributes):
+        with DatabaseCursor(self.database) as cursor:
+            keys = ", ".join(attributes.keys())
+            values = ", ".join([f"'{value}'" for value in attributes.values()])
+            query = f"INSERT INTO {tablename} ({keys}) VALUES ({values})"
+            cursor.execute(query)
+            cursor.execute("""SELECT last_insert_rowid()""")
+            last_id = cursor.fetchone()[0]
+
+        # SQLite does not support nested transactions
+        # therefore another connection must be created
+        with DatabaseCursor(self.database) as cursor:
+            result = self.get_by_filter(tablename, fields, id=last_id)[0]
+        return result
