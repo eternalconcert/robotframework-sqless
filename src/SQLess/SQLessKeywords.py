@@ -94,6 +94,14 @@ class SQLessKeywords(object):
         tablename, fields = self._get_tablename_and_fields(identifier)
         return self.adaptor.get_by_filter(tablename, fields, **filters)
 
+    def count(self, identifier, **filters):
+        """
+        Counts the matching rows and returns.
+
+        """
+        tablename, _ = self._get_tablename_and_fields(identifier)
+        return self.adaptor.count(tablename, **filters)
+
     def create(self, identifier, **attributes):
         """
         Dispatches the create function to the adaptor.

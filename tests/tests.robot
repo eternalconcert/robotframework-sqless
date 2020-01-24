@@ -29,6 +29,14 @@ Get By Filter Returned Value
     ${users}   Get By Filter    Users    email=someothername@someotherdomain.tld
     Should Be Equal    ${users[0]['username']}    TestUser2
 
-Test Create
-  ${user}   Create    Users    username=AnotherUser    email=name@domain.tld
-  Should Be Equal    ${user['email']}    name@domain.tld
+Create
+    ${user}   Create    Users    username=AnotherUser    email=name@domain.tld
+    Should Be Equal    ${user['email']}    name@domain.tld
+
+Count All
+    ${amount}    Count    Users
+    Should Be Equal As Strings    ${amount}    4
+
+Count Filtered
+    ${amount}    Count    Users    username=TestUser2
+    Should Be Equal As Strings    ${amount}    1

@@ -16,16 +16,33 @@ class DatabaseCursor:
         self.connection.close()
 
 
+def make_select_partial(tablename, fields):
+    return "SELECT %s FROM %s" % (', '.join(fields.keys()) ,tablename)
+
+
+def make_where_partial(filters):
+    where_partial = ""
+    if filters:
+        filter = " AND ".join(f"{key}='{value}'" for key, value in filters.items())
+        where_partial = f"WHERE {filter}"
+    return where_partial
+
+
+def make_count_partial(tablename):
+    return f"SELECT COUNT() FROM {tablename}"
+
+
+def make_list(result, fieldnames):
+    result_list = []
+    for item in result:
+        result_list.append(dict(zip(fieldnames, item)))
+    return result_list
+
+
 class SQLiteAdaptor:
 
     def __init__(self, **config):
         self.database = config['db']
-
-    def _make_list(self, result, fieldnames):
-        result_list = []
-        for item in result:
-            result_list.append(dict(zip(fieldnames, item)))
-        return result_list
 
     def execute_sql(self, query):
         with DatabaseCursor(self.database) as cursor:
@@ -35,22 +52,34 @@ class SQLiteAdaptor:
 
     def get_all(self, tablename, fields):
         with DatabaseCursor(self.database) as cursor:
-            cursor.execute("SELECT %s FROM %s" % (', '.join(fields.keys()), tablename))
-            result = self._make_list(cursor.fetchall(), fields.keys())
+            query = make_select_partial(tablename, fields)
+            cursor.execute(query)
+            result = make_list(cursor.fetchall(), fields.keys())
         return result
 
     def get_by_filter(self, tablename, fields, **filters):
+        select_partial = make_select_partial(tablename, fields)
+        where_partial = make_where_partial(filters)
+        query = f"{select_partial} {where_partial}"
         with DatabaseCursor(self.database) as cursor:
-            filter = " AND ".join(f"{key}='{value}'" for key, value in filters.items())
-            cursor.execute("SELECT %s FROM %s WHERE %s" % (', '.join(fields.keys()) ,tablename, filter))
-            result = self._make_list(cursor.fetchall(), fields.keys())
+            cursor.execute(query)
+            result = make_list(cursor.fetchall(), fields.keys())
         return result
 
-    def create(self, tablename, fields, **attributes):
+    def count(self, tablename, **filters):
+        count_partial = make_count_partial(tablename)
+        where_partial = make_where_partial(filters)
+        query = f"{count_partial} {where_partial}"
         with DatabaseCursor(self.database) as cursor:
-            keys = ", ".join(attributes.keys())
-            values = ", ".join([f"'{value}'" for value in attributes.values()])
-            query = f"INSERT INTO {tablename} ({keys}) VALUES ({values})"
+            cursor.execute(query)
+            result = cursor.fetchone()
+        return result[0]
+
+    def create(self, tablename, fields, **attributes):
+        keys = ", ".join(attributes.keys())
+        values = ", ".join([f"'{value}'" for value in attributes.values()])
+        query = f"INSERT INTO {tablename} ({keys}) VALUES ({values})"
+        with DatabaseCursor(self.database) as cursor:
             cursor.execute(query)
             cursor.execute("""SELECT last_insert_rowid()""")
             last_id = cursor.fetchone()[0]
