@@ -19,6 +19,6 @@ jobs:
         pip install -r requirements.txt
     - name: Test with robot
       run: |
-        export PYTHONPATH := $(PYTHONPATH):./src/
+        export PYTHONPATH="${PYTHONPATH}:./src/"
         python utils/build_test_db.py
         robot --outputdir reports/ tests
