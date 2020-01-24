@@ -13,6 +13,12 @@ Get All By Table Identifier
     ${users}   Get All    Users
     Length Should Be    ${users}    3
 
+Get From Mutiple Tables
+    ${users}   Get All    Users
+    Length Should Be    ${users}    3
+    ${posts}   Get All    Posts
+    Length Should Be    ${posts}    1
+
 Get By Filter
     ${users}   Get By Filter    Users    email=someothername@someotherdomain.tld
     Length Should Be    ${users}    1

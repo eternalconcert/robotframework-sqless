@@ -10,3 +10,10 @@ schema:
       username: char
       email: char
       failed_logins: integer
+  posts:
+    tablename: post
+    fields:
+      id: integer
+      user: integer
+      title: char
+      content: text

@@ -16,6 +16,12 @@ class User(DbObject):
     failed_logins = fields.IntegerField(default=0)
 
 
+class Post(DbObject):
+    user = fields.ForeignKey(User)
+    title = fields.CharField(max_length=100)
+    content = fields.TextField()
+
+
 Migration.migration_dir = os.path.join(os.getcwd(), 'utils/migrations')
 migrations = Migration()
 migrations.create_migrations()
@@ -28,5 +34,15 @@ users = [
     {"username": "TestUser3", "email": "another@mail.tld", "failed_logins": 12}
 ]
 
+
 for user in users:
     User.objects.get_or_create(**user)
+
+
+posts = [
+    {"user": 1, "title": "TestPosting", "content": "Lorem Ipsum Dolor Sit"}
+]
+
+
+for post in posts:
+    Post.objects.get_or_create(**post)
