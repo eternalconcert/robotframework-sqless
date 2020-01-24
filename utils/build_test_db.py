@@ -40,7 +40,8 @@ for user in users:
 
 
 posts = [
-    {"user": 1, "title": "TestPosting", "content": "Lorem Ipsum Dolor Sit"}
+    {"user": 1, "title": "TestPosting", "content": "Lorem Ipsum Dolor Sit"},
+    {"user": 2, "title": "SomeOtherStuff", "content": "hello, world!"},
 ]
 
 
