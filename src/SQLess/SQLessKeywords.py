@@ -49,13 +49,12 @@ class SQLessKeywords(object):
 
     def get_all(self, identifier):
         """
-        Dispatches the function call to the configured adaptor and returns all rows from the table
-        identified by the `identifier`.
-
-        The `identifier` must match a table defintion in the schema defintion file.
+        Returns all rows from the table identified by the `identifier`.
 
         Keyword usage example:
             ${users}   Get All    Users
+
+        The `identifier` must match a table defintion in the schema defintion file.
 
         :returns: list of dicts
         example:
@@ -72,14 +71,14 @@ class SQLessKeywords(object):
 
     def get_by_filter(self, identifier, **filters):
         """
-        Dispatches the function call to the configured adaptor and returns the rows from the table
-        identified by the `identifier`, where the filter matches.
+        Returns the rows from the table identified by the `identifier`, where the filter matches.
+
+        Keyword usage example:
+            ${users}   Get By Filter    Users    email=someothername@someotherdomain.tld
 
         The `identifier` must match a table defintion in the schema defintion file and the filter keys must
         match row names in the schema defintion file.
 
-        Keyword usage example:
-            ${users}   Get By Filter    Users    email=someothername@someotherdomain.tld
 
         :returns: list of dicts
         example:
@@ -104,7 +103,7 @@ class SQLessKeywords(object):
 
     def create(self, identifier, **attributes):
         """
-        Dispatches the create function to the adaptor.
+        Creates a row in the database identified by the `identifier`.
 
         Keyword usage:
             ${user}   Create    Users    username=AnotherUser
