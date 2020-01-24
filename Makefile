@@ -1,6 +1,6 @@
 #!/usr/bin/make
 
-export PYTHONPATH := "$(PYTHONPATH):./src/
+export PYTHONPATH := $(PYTHONPATH):./src/
 
 pythonenv:
 	virtualenv --python=python3 pythonenv
