@@ -22,3 +22,9 @@ class AbstractAdapter:
 
     def create(self, tablename, fields, **attributes):
         raise NotImplementedError()
+
+    def delete_all(self, tablename, **filters):
+        raise NotImplementedError()
+
+    def delete_by_filter(self, tablename, **filters):
+        raise NotImplementedError()

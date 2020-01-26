@@ -97,6 +97,8 @@ class SQLessKeywords(object):
         """
         Counts the matching rows and returns.
 
+        :returns: integer
+
         """
         tablename, _ = self._get_tablename_and_fields(identifier)
         return self.adaptor.count(tablename, **filters)
@@ -117,3 +119,29 @@ class SQLessKeywords(object):
         """
         tablename, fields = self._get_tablename_and_fields(identifier)
         return self.adaptor.create(tablename, fields, **attributes)
+
+    def delete_all(self, identifier):
+        """
+        Deletes all rows in the database identified by the `identifier`.
+
+        Keyword usage:
+            ${amount}    Delete All    Users
+
+        :returns: None
+
+        """
+        tablename, fields = self._get_tablename_and_fields(identifier)
+        return self.adaptor.delete_all(tablename)
+
+    def delete_by_filter(self, identifier, **filters):
+        """
+        Deletes all rows in the database identified by the `identifier`.
+
+        Keyword usage:
+            ${amount}    Delete By Filter    Users    username=TestUser1
+
+        :returns: None
+
+        """
+        tablename, fields = self._get_tablename_and_fields(identifier)
+        return self.adaptor.delete_by_filter(tablename, **filters)
