@@ -69,3 +69,15 @@ Count Filtered
     [Tags]    all_dbms
     ${amount}    Count    Users    username=TestUser2
     Should Be Equal As Strings    ${amount}    1
+
+Delete All
+    [Tags]    all_dbms
+    Delete All    Users
+    ${amount}    Count    Users
+    Should Be Equal As Strings    ${amount}    0
+
+Delete By Filter
+    [Tags]    all_dbms
+    Delete By Filter    Posts    title=SomeOtherStuff
+    ${amount}    Count    Posts
+    Should Be Equal As Strings    ${amount}    1

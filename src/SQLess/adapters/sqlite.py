@@ -21,6 +21,10 @@ def make_select_partial(tablename, fields):
     return "SELECT %s FROM %s" % (', '.join(fields.keys()) ,tablename)
 
 
+def make_delete_partial(tablename):
+    return "DELETE FROM %s" % (tablename)
+
+
 def make_where_partial(filters):
     where_partial = ""
     if filters:
@@ -90,3 +94,14 @@ class SQLiteAdapter(AbstractAdapter):
         with DatabaseCursor(self.database) as cursor:
             result = self.get_by_filter(tablename, fields, id=last_id)[0]
         return result
+
+    def delete_all(self, tablename, **filters):
+        with DatabaseCursor(self.database) as cursor:
+            query = make_delete_partial(tablename, **filters)
+            cursor.execute(query)
+
+    def delete_by_filter(self, tablename, **filters):
+        with DatabaseCursor(self.database) as cursor:
+            delete_partial = make_delete_partial(tablename)
+            where_partial = make_where_partial(filters)
+            cursor.execute(f"{delete_partial} {where_partial}")
