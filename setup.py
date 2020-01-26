@@ -11,7 +11,7 @@ setupargs = {
     'license': 'GPLv3',
     'version': '0.0.1',
 
-    'packages': ['SQLess', 'SQLess.adaptors'],
+    'packages': ['SQLess', 'SQLess.adapters'],
     'package_dir': {'': 'src'},
     'long_description': long_description,
     'long_description_content_type': 'text/markdown',

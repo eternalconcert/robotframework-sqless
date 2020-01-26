@@ -1,6 +1,7 @@
 import sqlite3
-
 from robot.api import logger
+
+from .adapter import AbstractAdapter
 
 
 class DatabaseCursor:
@@ -39,7 +40,7 @@ def make_list(result, fieldnames):
     return result_list
 
 
-class SQLiteAdaptor:
+class SQLiteAdapter(AbstractAdapter):
 
     def __init__(self, **config):
         self.database = config['db']

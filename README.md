@@ -1,3 +1,7 @@
+[Robot Tests](https://github.com/eternalconcert/robotframework-sqless/workflows/Robot Tests/badge.svg?branch=master)
+
+# Robot Framework - SQLess
+
 ``robotframework-sqless`` is a  SQL abstraction library for [Robot Framework](https://robotframework.org/)
 
 ## Usage
