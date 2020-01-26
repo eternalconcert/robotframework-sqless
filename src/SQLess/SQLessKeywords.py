@@ -3,7 +3,6 @@ import yaml
 
 from robot.api import logger
 
-from SQLess.adapters.sqlite import SQLiteAdapter
 
 
 class SQLessKeywords(object):
@@ -20,7 +19,12 @@ class SQLessKeywords(object):
 
         """
         if self.schema['database_config']['dbms'] == 'sqlite':
+            from SQLess.adapters.sqlite import SQLiteAdapter
             adaptor = SQLiteAdapter
+
+        elif self.schema['database_config']['dbms'] == 'mysql':
+            from SQLess.adapters.mysql import MysqlAdapter
+            adaptor = MysqlAdapter
 
         return adaptor(**self.schema['database_config'])
 

@@ -1,13 +1,26 @@
 # This file is needed to initialize the models and migrations
 import os
+import sys
+
 from nopea.dbobject import DbObject
 
 from nopea import fields
 from nopea.adaptors.sqlite import SQLiteAdaptor
+from nopea.adaptors.mysql import MySQLAdaptor
 from nopea.migrations import Migration
 
 
-DbObject.adaptor = SQLiteAdaptor('sqless.db')
+if 'sqlite' in sys.argv:
+    DbObject.adaptor = SQLiteAdaptor('sqless.db')
+
+elif 'mysql' in sys.argv:
+    DbObject.adaptor = MySQLAdaptor({
+        'host': 'localhost',
+        'user': 'sqless',
+        'db': 'sqless',
+        'use_unicode': True,
+        'charset': 'utf8'
+    })
 
 
 class User(DbObject):
