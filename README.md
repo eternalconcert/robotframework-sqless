@@ -7,14 +7,14 @@ pip install robotframework-sqless
 ```
 
 ## Example testcase
-|                     |                           |                     |                       |
-| ----------------    | --------------------------| ------------------- | --------------------- |
-| *** Settings ***    |                           |                     |                       |
-| Library             | SQLess                    |                     |                       |
-| *** Test Cases ***  |                           |                     |                       |
-| Get Users By Filter |                           |                     |                       |
-|                     | ${users}                  | Users               | username=TestUser     |
-|                     | Length Should Be          | ${users}            | 1                     |
+|                     |                           |                     |                     |                       |
+| ----------------    | --------------------------| ------------------- | ------------------- | --------------------- |
+| *** Settings ***    |                           |                     |                     |                       |
+| Library             | SQLess                    |                     |                     |                       |
+| *** Test Cases ***  |                           |                     |                     |                       |
+| Get Users By Filter |                           |                     |                     |                       |
+|                     | ${users}                  | Get By Filter       | Users               | username=TestUser     |
+|                     | Length Should Be          | ${users}            | 1                   |                       |
 
 The example presumes there is a database with a user table and at least a column `username`.
 
