@@ -1,4 +1,4 @@
-[Robot Tests](https://github.com/eternalconcert/robotframework-sqless/workflows/Robot Tests/badge.svg?branch=master)
+![Robot Tests](https://github.com/eternalconcert/robotframework-sqless/workflows/Robot%20Tests/badge.svg?branch=master)
 
 # Robot Framework - SQLess
 
