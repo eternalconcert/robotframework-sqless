@@ -5,16 +5,15 @@ import sys
 from nopea.dbobject import DbObject
 
 from nopea import fields
-from nopea.adaptors.mysql import MySQLAdaptor
-from nopea.adaptors.postgres import PostgreSQLAdaptor
-from nopea.adaptors.sqlite import SQLiteAdaptor
 from nopea.migrations import Migration
 
 
 if 'sqlite' in sys.argv:
+    from nopea.adaptors.sqlite import SQLiteAdaptor
     DbObject.adaptor = SQLiteAdaptor('sqless.db')
 
 elif 'mysql' in sys.argv:
+    from nopea.adaptors.mysql import MySQLAdaptor
     DbObject.adaptor = MySQLAdaptor({
         'host': 'localhost',
         'user': 'sqless',
@@ -24,6 +23,7 @@ elif 'mysql' in sys.argv:
     })
 
 elif 'postgres' in sys.argv:
+    from nopea.adaptors.postgres import PostgreSQLAdaptor
     DbObject.adaptor = PostgreSQLAdaptor({
         'host': 'localhost',
         'user': 'sqless',
