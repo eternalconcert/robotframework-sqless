@@ -1,13 +1,13 @@
 *** Settings ***
 
-Library    SQLess    schema.yml
+Library    SQLess    tests/schema.yml
 
 *** Test Cases ***
 
 Get By Raw Query
     [Tags]    sqlite
     ${query}    Set Variable    SELECT id, username, email, failed_logins FROM user;
-    ${result}    Execute SQL    ${query}
+    ${result}    Execute SQL String    ${query}
     Length Should Be    ${result}    3
 
 Get All By Table Identifier
@@ -26,7 +26,7 @@ Get From Mutiple Tables By Filter
     [Tags]    all_dbms
     ${users}   Get By Filter    Users    email=someothername@someotherdomain.tld
     Length Should Be    ${users}    1
-    ${posts}   Get By Filter    Posts    user=2
+    ${posts}   Get By Filter    Posts    content=hello, world!
     Length Should Be    ${posts}    1
 
 Get By Filter
@@ -72,12 +72,12 @@ Count Filtered
 
 Delete All
     [Tags]    all_dbms
-    Delete All    Users
-    ${amount}    Count    Users
+    Delete All    Posts
+    ${amount}    Count    Posts
     Should Be Equal As Strings    ${amount}    0
 
 Delete By Filter
     [Tags]    all_dbms
-    Delete By Filter    Posts    title=SomeOtherStuff
-    ${amount}    Count    Posts
-    Should Be Equal As Strings    ${amount}    1
+    Delete By Filter    Users    username=TestUser3
+    ${amount}    Count    Users
+    Should Be Equal As Strings    ${amount}    3

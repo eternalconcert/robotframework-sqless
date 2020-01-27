@@ -1,13 +1,35 @@
 # This file is needed to initialize the models and migrations
 import os
+import sys
+
 from nopea.dbobject import DbObject
 
 from nopea import fields
-from nopea.adaptors.sqlite import SQLiteAdaptor
 from nopea.migrations import Migration
 
 
-DbObject.adaptor = SQLiteAdaptor('sqless.db')
+if 'sqlite' in sys.argv:
+    from nopea.adaptors.sqlite import SQLiteAdaptor
+    DbObject.adaptor = SQLiteAdaptor('sqless.db')
+
+elif 'mysql' in sys.argv:
+    from nopea.adaptors.mysql import MySQLAdaptor
+    DbObject.adaptor = MySQLAdaptor({
+        'host': 'localhost',
+        'user': 'sqless',
+        'db': 'sqless',
+        'use_unicode': True,
+        'charset': 'utf8'
+    })
+
+elif 'postgres' in sys.argv:
+    from nopea.adaptors.postgres import PostgreSQLAdaptor
+    DbObject.adaptor = PostgreSQLAdaptor({
+        'host': 'localhost',
+        'user': 'sqless',
+        'database': 'sqless',
+        'password': 'sqless'
+    })
 
 
 class User(DbObject):
@@ -17,7 +39,6 @@ class User(DbObject):
 
 
 class Post(DbObject):
-    user = fields.ForeignKey(User)
     title = fields.CharField(max_length=100)
     content = fields.TextField()
 
@@ -40,8 +61,8 @@ for user in users:
 
 
 posts = [
-    {"user": 1, "title": "TestPosting", "content": "Lorem Ipsum Dolor Sit"},
-    {"user": 2, "title": "SomeOtherStuff", "content": "hello, world!"},
+    {"title": "TestPosting", "content": "Lorem Ipsum Dolor Sit"},
+    {"title": "SomeOtherStuff", "content": "hello, world!"},
 ]
 
 
