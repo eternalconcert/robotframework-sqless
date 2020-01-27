@@ -26,6 +26,10 @@ class SQLessKeywords(object):
             from SQLess.adapters.mysql import MysqlAdapter
             adaptor = MysqlAdapter
 
+        elif self.schema['database_config']['dbms'] == 'postgres':
+            from SQLess.adapters.postgres import PostgresqlAdapter
+            adaptor = PostgresqlAdapter
+
         elif self.schema['database_config']['dbms'] == 'oracle':
             from SQLess.adapters.oracle import OracleAdapter
             adaptor = OracleAdapter

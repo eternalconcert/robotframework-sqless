@@ -1,6 +1,6 @@
 *** Settings ***
 
-Library    SQLess    schema.yml
+Library    SQLess    tests/schema.yml
 
 *** Test Cases ***
 
@@ -26,7 +26,7 @@ Get From Mutiple Tables By Filter
     [Tags]    all_dbms
     ${users}   Get By Filter    Users    email=someothername@someotherdomain.tld
     Length Should Be    ${users}    1
-    ${posts}   Get By Filter    Posts    user=2
+    ${posts}   Get By Filter    Posts    content=hello, world!
     Length Should Be    ${posts}    1
 
 Get By Filter

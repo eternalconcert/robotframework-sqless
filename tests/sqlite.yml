@@ -1,10 +1,6 @@
 database_config:
-  dbms: mysql
-  db: sqless
-  user: sqless
-  host: localhost
-  use_unicode: True
-  charset: utf8
+  dbms: sqlite
+  db: sqless.db
 
 schema:
   users:
@@ -18,6 +14,5 @@ schema:
     tablename: post
     fields:
       id: integer
-      user: integer
       title: char
       content: text

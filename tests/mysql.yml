@@ -1,10 +1,10 @@
 database_config:
-  dbms: oracle
-  host: localhost
-  port: 1521
-  service_name: sqless
+  dbms: mysql
+  db: sqless
   user: sqless
-  password: sqless
+  host: localhost
+  use_unicode: True
+  charset: utf8
 
 schema:
   users:
@@ -18,6 +18,5 @@ schema:
     tablename: post
     fields:
       id: integer
-      user: integer
       title: char
       content: text

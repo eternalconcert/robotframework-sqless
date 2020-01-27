@@ -5,8 +5,9 @@ import sys
 from nopea.dbobject import DbObject
 
 from nopea import fields
-from nopea.adaptors.sqlite import SQLiteAdaptor
 from nopea.adaptors.mysql import MySQLAdaptor
+from nopea.adaptors.postgres import PostgreSQLAdaptor
+from nopea.adaptors.sqlite import SQLiteAdaptor
 from nopea.migrations import Migration
 
 
@@ -22,6 +23,14 @@ elif 'mysql' in sys.argv:
         'charset': 'utf8'
     })
 
+elif 'postgres' in sys.argv:
+    DbObject.adaptor = PostgreSQLAdaptor({
+        'host': 'localhost',
+        'user': 'sqless',
+        'database': 'sqless',
+        'password': 'sqless'
+    })
+
 
 class User(DbObject):
     username = fields.CharField(max_length=20)
@@ -30,7 +39,6 @@ class User(DbObject):
 
 
 class Post(DbObject):
-    user = fields.ForeignKey(User)
     title = fields.CharField(max_length=100)
     content = fields.TextField()
 
@@ -53,8 +61,8 @@ for user in users:
 
 
 posts = [
-    {"user": 1, "title": "TestPosting", "content": "Lorem Ipsum Dolor Sit"},
-    {"user": 2, "title": "SomeOtherStuff", "content": "hello, world!"},
+    {"title": "TestPosting", "content": "Lorem Ipsum Dolor Sit"},
+    {"title": "SomeOtherStuff", "content": "hello, world!"},
 ]
 
 

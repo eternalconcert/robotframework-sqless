@@ -8,14 +8,22 @@ pythonenv:
 
 test-sqlite:
 	rm -f sqless.db
-	cat sqlite.yml > schema.yml
+	cat tests/sqlite.yml > tests/schema.yml
 	pythonenv/bin/python utils/build_test_db.py sqlite
-	pythonenv/bin/robot --outputdir reports/ tests
+	pythonenv/bin/robot --outputdir tests/reports/ tests
+	rm -f tests/schema.yml
 
 test-mysql:
-	cat mysql.yml > schema.yml
+	cat tests/mysql.yml > tests/schema.yml
 	pythonenv/bin/python utils/build_test_db.py mysql
-	pythonenv/bin/robot --outputdir reports/ tests
+	pythonenv/bin/robot -i all_dbms --outputdir tests/reports/ tests
+	rm -f tests/schema.yml
+
+test-postgres:
+	cat tests/postgres.yml > tests/schema.yml
+	pythonenv/bin/python utils/build_test_db.py postgres
+	pythonenv/bin/robot -i all_dbms --outputdir tests/reports/ tests
+	rm -f tests/schema.yml
 
 package:
 	pythonenv/bin/python setup.py sdist bdist_wheel
