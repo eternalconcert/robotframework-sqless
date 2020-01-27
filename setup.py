@@ -9,7 +9,7 @@ setupargs = {
     'description': 'robotframework-sqless is a SQL abstraction library for Robot Framework',
 
     'license': 'GPLv3',
-    'version': '0.0.1',
+    'version': '0.0.2',
 
     'packages': ['SQLess', 'SQLess.adapters'],
     'package_dir': {'': 'src'},
