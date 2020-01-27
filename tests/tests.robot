@@ -7,7 +7,7 @@ Library    SQLess    schema.yml
 Get By Raw Query
     [Tags]    sqlite
     ${query}    Set Variable    SELECT id, username, email, failed_logins FROM user;
-    ${result}    Execute SQL    ${query}
+    ${result}    Execute SQL String    ${query}
     Length Should Be    ${result}    3
 
 Get All By Table Identifier

@@ -8,8 +8,8 @@ from robot.api import logger
 class SQLessKeywords(object):
     ROBOT_LIBRARY_SCOPE = 'Global'
 
-    def __init__(self, schema_defintion_path=None):
-        self.schema_defintion_path = schema_defintion_path if schema_defintion_path else 'schema.yml'
+    def __init__(self, schema_defintion_path='schema.yml'):
+        self.schema_defintion_path = schema_defintion_path
         self.schema = self._read_schema()
         self.adaptor = self._get_adaptor()
 
@@ -25,6 +25,10 @@ class SQLessKeywords(object):
         elif self.schema['database_config']['dbms'] == 'mysql':
             from SQLess.adapters.mysql import MysqlAdapter
             adaptor = MysqlAdapter
+
+        elif self.schema['database_config']['dbms'] == 'oracle':
+            from SQLess.adapters.oracle import OracleAdapter
+            adaptor = OracleAdapter
 
         return adaptor(**self.schema['database_config'])
 
@@ -44,7 +48,7 @@ class SQLessKeywords(object):
         fields = self.schema['schema'].get(identifier.lower())['fields']
         return (tablename, fields)
 
-    def execute_sql(self, query):
+    def execute_sql_string(self, query):
         """
         Passes the query to the adaptor and returns the result
 
