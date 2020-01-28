@@ -23,3 +23,7 @@ jobs:
         export PYTHONPATH="${PYTHONPATH}:./src/"
         python utils/build_test_db.py sqlite
         robot --outputdir tests/reports/ tests
+    - uses: actions/upload-artifact@v1
+      with:
+        name: test-results
+        path: tests/reports
