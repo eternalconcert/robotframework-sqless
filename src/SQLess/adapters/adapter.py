@@ -28,3 +28,9 @@ class AbstractAdapter:
 
     def delete_by_filter(self, tablename, **filters):
         raise NotImplementedError()
+
+    def update_all(self, tablename, **attributes):
+        raise NotImplementedError()
+
+    def update_by_filter(self, tablename, filters, **attributes):
+        raise NotImplementedError()

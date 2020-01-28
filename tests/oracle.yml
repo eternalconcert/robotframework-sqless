@@ -20,3 +20,11 @@ schema:
       id: integer
       title: char
       content: text
+  songs:
+    tablename: song
+    fields:
+      id: integer
+      title: char
+      artist: char
+      album: char
+      in_collection: boolean

@@ -157,3 +157,34 @@ class SQLessKeywords(object):
         """
         tablename, fields = self._get_tablename_and_fields(identifier)
         return self.adaptor.delete_by_filter(tablename, **filters)
+
+    def update_all(self, identifier, **attributes):
+        """
+        Updates all rows in the database identified by the `identifier`
+        with the passed attributes.
+
+        Keyword usage:
+            Update All    Songs    in_collection=1
+
+        :returns: None
+
+        """
+        tablename, fields = self._get_tablename_and_fields(identifier)
+        return self.adaptor.update_all(tablename, **attributes)
+
+    def update_by_filter(self, identifier, filters, **attributes):
+        """
+        Updates the rows in the database identified by the `identifier`
+        and filtered by the passed filters with the passed attributes.
+        The filters must be a dict containing the keys and values to identify rows.
+
+
+        Keyword usage:
+            ${filter}    Create Dictionary    artist=Nightwish
+            Update By Filter    Songs    ${filter}    album=Decades: Live in Buenos Aires
+
+        :returns: None
+
+        """
+        tablename, fields = self._get_tablename_and_fields(identifier)
+        return self.adaptor.update_by_filter(tablename, filters, **attributes)
