@@ -99,6 +99,7 @@ Update By Filter From Selected Rows
     ${songs}    Given Songs Have Wrong Artist Name
     When Songs Are Update From Previous Select    ${songs}
     Then Songs Have Correct Artist Names
+    And Other Songs Should Still Have Their Old Artists
 
 *** Keywords ***
 Song Is Not In Collection
@@ -128,17 +129,21 @@ Songs Have Complete Album Name
     Should Be Equal    ${song[1]['album']}    Decades: Live in Buenos Aires
     Should Be Equal    ${song[2]['album']}    Decades: Live in Buenos Aires
 
-Given Songs Have Wrong Artist Name
+Songs Have Wrong Artist Name
     ${songs}   Get By Filter    Songs    album=Sons Of Northern Darkness
     Should Be Equal    ${songs[0]['artist']}    Immortal_
     Should Be Equal    ${songs[1]['artist']}    Immortal_
-    [Returns]    ${songs}
+    [Return]    ${songs}
 
-When Songs Are Update From Previous Select
+Songs Are Update From Previous Select
     [Arguments]    ${songs}
     Update By Filter    Songs    ${songs}    artist=Immortal
 
-Then Songs Have Correct Artist Names
+Songs Have Correct Artist Names
     ${songs}   Get By Filter    Songs    album=Sons Of Northern Darkness
     Should Be Equal    ${songs[0]['artist']}    Immortal
     Should Be Equal    ${songs[1]['artist']}    Immortal
+
+Other Songs Should Still Have Their Old Artists
+    ${result}    Get By Filter    Songs    artist=Nightwish
+    Length Should Be    ${result}    3
