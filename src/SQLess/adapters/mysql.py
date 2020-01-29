@@ -25,16 +25,32 @@ def make_delete_partial(tablename):
     return "DELETE FROM %s" % (tablename)
 
 
+def make_single_filter_partial(filters):
+    filter = " AND ".join(f"{key}='{value}'" for key, value in filters.items())
+    return filter
+
+
 def make_where_partial(filters):
     where_partial = ""
     if filters:
-        filter = " AND ".join(f"{key}='{value}'" for key, value in filters.items())
+        if isinstance(filters, dict):
+            filter = make_single_filter_partial(filters)
+        if isinstance(filters, list):
+            clauses = []
+            for clause in filters:
+                clauses.append(make_single_filter_partial(clause))
+            filter = " OR ".join(clauses)
         where_partial = f"WHERE {filter}"
     return where_partial
 
 
 def make_count_partial(tablename):
     return f"SELECT COUNT(*) FROM {tablename}"
+
+
+def make_update_partial(tablename, **attributes):
+    settings = ", ".join([f"{key}='{value}'" for key, value in attributes.items()])
+    return f"UPDATE {tablename} SET {settings}"
 
 
 def make_list(result, fieldnames):
@@ -106,3 +122,14 @@ class MysqlAdapter(AbstractAdapter):
             delete_partial = make_delete_partial(tablename)
             where_partial = make_where_partial(filters)
             cursor.execute(f"{delete_partial} {where_partial}")
+
+    def update_all(self, tablename, **attributes):
+        with DatabaseCursor(self.database_settings) as cursor:
+            update_partial = make_update_partial(tablename, **attributes)
+            cursor.execute(update_partial)
+
+    def update_by_filter(self, tablename, filters, **attributes):
+        with DatabaseCursor(self.database_settings) as cursor:
+            update_partial = make_update_partial(tablename, **attributes)
+            where_partial = make_where_partial(filters)
+            cursor.execute(f"{update_partial} {where_partial}")

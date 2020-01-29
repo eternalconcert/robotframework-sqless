@@ -1,6 +1,6 @@
 *** Settings ***
 
-Library    SQLess    tests/schema.yml    tests/sqlite.yml
+Library    SQLess    tests/config/schema.yml    tests/config/db_config.yml
 
 *** Test Cases ***
 
@@ -107,7 +107,7 @@ Song Is Not In Collection
     Should Not Be True    ${song[0]['in_collection']}
 
 When All Songs Are Updated
-    Update All    Songs    in_collection=True
+    Update All    Songs    in_collection=1
 
 Song Is In Collection
     ${song}   Get By Filter    Songs    artist=Sirenia

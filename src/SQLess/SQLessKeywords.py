@@ -9,8 +9,9 @@ class SQLessKeywords(object):
     ROBOT_LIBRARY_SCOPE = 'Global'
 
     def __init__(self, schema_path='schema.yml', db_config_path=None):
-        self.database_config = self._read_config(db_config_path)
+        logger.console(db_config_path)
         self.schema = self._read_schema(schema_path)
+        self.database_config = self._read_config(db_config_path)
         self.adaptor = self._get_adaptor()
 
     def _get_adaptor(self):
