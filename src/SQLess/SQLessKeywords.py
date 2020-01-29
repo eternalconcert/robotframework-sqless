@@ -8,9 +8,9 @@ from robot.api import logger
 class SQLessKeywords(object):
     ROBOT_LIBRARY_SCOPE = 'Global'
 
-    def __init__(self, schema_defintion_path='schema.yml'):
-        self.schema_defintion_path = schema_defintion_path
-        self.schema = self._read_schema()
+    def __init__(self, schema_path='schema.yml', db_config_path=None):
+        self.database_config = self._read_config(db_config_path)
+        self.schema = self._read_schema(schema_path)
         self.adaptor = self._get_adaptor()
 
     def _get_adaptor(self):
@@ -18,38 +18,50 @@ class SQLessKeywords(object):
         Helper method to get the correct adaptor
 
         """
-        if self.schema['database_config']['dbms'] == 'sqlite':
+        if self.database_config['dbms'] == 'sqlite':
             from SQLess.adapters.sqlite import SQLiteAdapter
             adaptor = SQLiteAdapter
 
-        elif self.schema['database_config']['dbms'] == 'mysql':
+        elif self.database_config['dbms'] == 'mysql':
             from SQLess.adapters.mysql import MysqlAdapter
             adaptor = MysqlAdapter
 
-        elif self.schema['database_config']['dbms'] == 'postgres':
+        elif self.database_config['dbms'] == 'postgres':
             from SQLess.adapters.postgres import PostgresqlAdapter
             adaptor = PostgresqlAdapter
 
-        elif self.schema['database_config']['dbms'] == 'oracle':
+        elif self.database_config['dbms'] == 'oracle':
             from SQLess.adapters.oracle import OracleAdapter
             adaptor = OracleAdapter
 
-        return adaptor(**self.schema['database_config'])
+        return adaptor(**self.database_config)
 
-    def _read_schema(self):
+    def _read_config(self, db_config_path):
+        """
+        Reads the config from the config file
+
+        :returns: dict
+
+        """
+        with open(db_config_path) as file:
+            database_config = yaml.load(file, Loader=yaml.FullLoader)
+        return database_config
+
+
+    def _read_schema(self, schema_path):
         """
         Reads the schema from the schema defintion file
 
         :returns: dict
 
         """
-        with open(self.schema_defintion_path) as file:
+        with open(schema_path) as file:
             schema_defintion = yaml.load(file, Loader=yaml.FullLoader)
         return schema_defintion
 
     def _get_tablename_and_fields(self, identifier):
-        tablename = self.schema['schema'].get(identifier.lower())['tablename']
-        fields = self.schema['schema'].get(identifier.lower())['fields']
+        tablename = self.schema.get(identifier.lower())['tablename']
+        fields = self.schema.get(identifier.lower())['fields']
         return (tablename, fields)
 
     def execute_sql_string(self, query):

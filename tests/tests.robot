@@ -1,6 +1,6 @@
 *** Settings ***
 
-Library    SQLess    tests/schema.yml
+Library    SQLess    tests/schema.yml    tests/sqlite.yml
 
 *** Test Cases ***
 
