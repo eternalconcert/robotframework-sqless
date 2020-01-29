@@ -19,7 +19,6 @@ jobs:
         pip install -r requirements.txt
     - name: Test with robot
       run: |
-        cat tests/sqlite.yml > tests/schema.yml
         export PYTHONPATH="${PYTHONPATH}:./src/"
         python utils/build_test_db.py sqlite
         robot --outputdir tests/reports/ tests
