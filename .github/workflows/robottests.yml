@@ -20,6 +20,7 @@ jobs:
     - name: Test with robot
       run: |
         export PYTHONPATH="${PYTHONPATH}:./src/"
+        cat tests/config/sqlite.yml > tests/config/db_config.yml
         python utils/build_test_db.py sqlite
         robot --outputdir tests/reports/ tests
     - uses: actions/upload-artifact@v1
