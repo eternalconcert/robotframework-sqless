@@ -14,7 +14,7 @@ pip install robotframework-sqless
 |                     |                           |                     |                     |                       |
 | ----------------    | --------------------------| ------------------- | ------------------- | --------------------- |
 | *** Settings ***    |                           |                     |                     |                       |
-| Library             | SQLess                    |                     |                     |                       |
+| Library             | SQLess                    | schema.yml          | db_config.yml       |                       |
 | *** Test Cases ***  |                           |                     |                     |                       |
 | Get Users By Filter |                           |                     |                     |                       |
 |                     | ${users}                  | Get By Filter       | Users               | username=TestUser     |
