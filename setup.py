@@ -7,7 +7,7 @@ with open('README.md') as f:
 setupargs = {
     'name': 'robotframework-sqless',
     'description': 'robotframework-sqless is a SQL abstraction library for Robot Framework',
-    'version': '0.0.4',
+    'version': '0.1.0',
 
     'license': 'Apache License 2.0',
 
