@@ -7,9 +7,9 @@ with open('README.md') as f:
 setupargs = {
     'name': 'robotframework-sqless',
     'description': 'robotframework-sqless is a SQL abstraction library for Robot Framework',
+    'version': '0.0.3',
 
-    'license': 'GPLv3',
-    'version': '0.0.2',
+    'license': 'Apache License 2.0',
 
     'packages': ['SQLess', 'SQLess.adapters'],
     'package_dir': {'': 'src'},
@@ -18,11 +18,13 @@ setupargs = {
 
     'author': 'Christian Kokoska',
     'author_email': 'info@softcreate.de',
+    'url': 'https://github.com/eternalconcert/robotframework-sqless',
+    'keywords': 'robotframework testing test automation http client sql orm postgres postgresql mysql sqlite',
+    'platforms': 'any',
     'install_requires': [
         'robotframework>=3.1.2',
         'pyyaml>=5.3',
-        'nopea>=0.0.4'
-        ,
+        'nopea>=0.0.4',
     ],
 }
 

@@ -1,5 +1,6 @@
 pythonenv/
 reports/
+dist/
 build/
 *egg*
 *.pyc
