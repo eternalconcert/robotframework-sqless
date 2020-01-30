@@ -23,17 +23,19 @@ pip install robotframework-sqless
 The example presumes there is a database with a user table and at least a column `username`.
 
 ## Schema definition
-The database schema must be defined in an .yml file. For the above example, the following file should apply:
+The database schema and the database configuration must be defined in separate .yml files. For the above example, the following files should apply:
 
+db_config.yml
 ```yaml
-database_config:
-  dbms: sqlite
-  db: sqless.db
+dbms: sqlite
+db: sqless.db
+```
 
-schema:
-  users:
-    tablename: user
-    fields:
-      id: integer
-      username: char
+schema.yml
+```yaml
+users:
+  tablename: user
+  fields:
+    id: integer
+    username: char
 ```
