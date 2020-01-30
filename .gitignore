@@ -1,7 +1,7 @@
 pythonenv/
 reports/
+dist/
 build/
 *egg*
 *.pyc
 sqless.db
-schema.yml

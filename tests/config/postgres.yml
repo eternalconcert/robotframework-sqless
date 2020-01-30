@@ -1,0 +1,5 @@
+dbms: postgres
+host: localhost
+user: sqless
+database: sqless
+password: sqless

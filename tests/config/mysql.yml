@@ -1,0 +1,6 @@
+dbms: mysql
+db: sqless
+user: sqless
+host: localhost
+use_unicode: True
+charset: utf8

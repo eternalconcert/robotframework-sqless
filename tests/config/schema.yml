@@ -1,0 +1,21 @@
+users:
+  tablename: user
+  fields:
+    id: integer
+    username: char
+    email: char
+    failed_logins: integer
+posts:
+  tablename: post
+  fields:
+    id: integer
+    title: char
+    content: text
+songs:
+  tablename: song
+  fields:
+    id: integer
+    title: char
+    artist: char
+    album: char
+    in_collection: boolean

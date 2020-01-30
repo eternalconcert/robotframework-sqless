@@ -1,0 +1,2 @@
+dbms: sqlite
+db: sqless.db

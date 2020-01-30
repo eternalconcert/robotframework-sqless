@@ -43,6 +43,13 @@ class Post(DbObject):
     content = fields.TextField()
 
 
+class Song(DbObject):
+    title = fields.CharField(max_length=100)
+    artist = fields.CharField(max_length=100)
+    album = fields.CharField(max_length=100)
+    in_collection = fields.BooleanField(default=False)
+
+
 Migration.migration_dir = os.path.join(os.getcwd(), 'utils/migrations')
 migrations = Migration()
 migrations.create_migrations()
@@ -68,3 +75,41 @@ posts = [
 
 for post in posts:
     Post.objects.get_or_create(**post)
+
+
+songs = [
+    {
+        "title": "Love Like Cyanide",
+        "artist": "Sirenia",
+        "album": "Arcane Astral Aeons"
+    },
+    {
+        "title": "The Greatest Show On Earth",
+        "artist": "Nightwish",
+        "album": "Decades"
+    },
+    {
+        "title": "Ghost Love Score",
+        "artist": "Nightwish",
+        "album": "Decades"
+    },
+    {
+        "title": "Devil And The Deep Dark Ocean",
+        "artist": "Nightwish",
+        "album": "Decades"
+    },
+    {
+        "title": "One By One",
+        "artist": "Immortal_",
+        "album": "Sons Of Northern Darkness"
+    },
+    {
+        "title": "Sons Of Northern Darkness",
+        "artist": "Immortal_",
+        "album": "Sons Of Northern Darkness"
+    }
+]
+
+
+for song in songs:
+    Song.objects.get_or_create(**song)

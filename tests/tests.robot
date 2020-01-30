@@ -1,6 +1,6 @@
 *** Settings ***
 
-Library    SQLess    tests/schema.yml
+Library    SQLess    tests/config/schema.yml    tests/config/db_config.yml
 
 *** Test Cases ***
 
@@ -81,3 +81,69 @@ Delete By Filter
     Delete By Filter    Users    username=TestUser3
     ${amount}    Count    Users
     Should Be Equal As Strings    ${amount}    3
+
+Update All
+    [Tags]    all_dbms
+    Given Song Is Not In Collection
+    When All Songs Are Updated
+    Then Song Is In Collection
+
+Update By Filter
+    [Tags]    all_dbms
+    Given Songs Have Incomplete Album Name
+    When Album Names Are Updated
+    Then Songs Have Complete Album Name
+
+Update By Filter From Selected Rows
+    [Tags]    all_dbms
+    ${songs}    Given Songs Have Wrong Artist Name
+    When Songs Are Update From Previous Select    ${songs}
+    Then Songs Have Correct Artist Names
+    And Other Songs Should Still Have Their Old Artists
+
+*** Keywords ***
+Song Is Not In Collection
+    ${song}   Get By Filter    Songs    artist=Sirenia
+    Should Not Be True    ${song[0]['in_collection']}
+
+When All Songs Are Updated
+    Update All    Songs    in_collection=1
+
+Song Is In Collection
+    ${song}   Get By Filter    Songs    artist=Sirenia
+    Should Be True    ${song[0]['in_collection']}
+
+Songs Have Incomplete Album Name
+    ${song}    Get By Filter    Songs    artist=Nightwish
+    Should Be Equal    ${song[0]['album']}    Decades
+    Should Be Equal    ${song[1]['album']}    Decades
+    Should Be Equal    ${song[2]['album']}    Decades
+
+Album Names Are Updated
+    ${filter}    Create Dictionary    artist=Nightwish
+    Update By Filter    Songs    ${filter}    album=Decades: Live in Buenos Aires
+
+Songs Have Complete Album Name
+    ${song}    Get By Filter    Songs    artist=Nightwish
+    Should Be Equal    ${song[0]['album']}    Decades: Live in Buenos Aires
+    Should Be Equal    ${song[1]['album']}    Decades: Live in Buenos Aires
+    Should Be Equal    ${song[2]['album']}    Decades: Live in Buenos Aires
+
+Songs Have Wrong Artist Name
+    ${songs}   Get By Filter    Songs    album=Sons Of Northern Darkness
+    Should Be Equal    ${songs[0]['artist']}    Immortal_
+    Should Be Equal    ${songs[1]['artist']}    Immortal_
+    [Return]    ${songs}
+
+Songs Are Update From Previous Select
+    [Arguments]    ${songs}
+    Update By Filter    Songs    ${songs}    artist=Immortal
+
+Songs Have Correct Artist Names
+    ${songs}   Get By Filter    Songs    album=Sons Of Northern Darkness
+    Should Be Equal    ${songs[0]['artist']}    Immortal
+    Should Be Equal    ${songs[1]['artist']}    Immortal
+
+Other Songs Should Still Have Their Old Artists
+    ${result}    Get By Filter    Songs    artist=Nightwish
+    Length Should Be    ${result}    3
